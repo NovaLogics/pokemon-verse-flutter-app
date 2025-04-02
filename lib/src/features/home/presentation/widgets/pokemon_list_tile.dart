@@ -9,32 +9,25 @@ import 'package:skeletonizer/skeletonizer.dart';
 class PokemonListTile extends ConsumerWidget {
   final String pokemonURL;
 
-  late FavoritePokemonNotifier _favoritePokemonProvider;
-  late List<String> _favoritePokemons;
-
-  PokemonListTile({super.key, required this.pokemonURL});
+  const PokemonListTile({super.key, required this.pokemonURL});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _favoritePokemonProvider = ref.watch(favoritePokemonProvider.notifier);
-    _favoritePokemons = ref.watch(favoritePokemonProvider);
-
+    final favoritePokemonNotifier = ref.watch(favoritePokemonProvider.notifier);
+    final favoritePokemons = ref.watch(favoritePokemonProvider);
     final pokemon = ref.watch(pokemonDataProvider(pokemonURL));
 
     return pokemon.when(
-      data: (data) {
-        return _tile(context, false, data);
-      },
-      error: (error, stackTrace) {
-        return Center(child: Text("Error: $error"));
-      },
-      loading: () {
-        return _tile(context, true, null);
-      },
+      data: (data) => _tile(context, favoritePokemonNotifier, favoritePokemons, false, data),
+      error: (error, stackTrace) => Center(child: Text("Error: $error")),
+      loading: () => _tile(context, favoritePokemonNotifier, favoritePokemons, true, null),
     );
   }
 
-  Widget _tile(BuildContext context, bool isLoading, Pokemon? pokemon) {
+  Widget _tile(BuildContext context, FavoritePokemonNotifier favoritePokemonNotifier,
+      List<String> favoritePokemons, bool isLoading, Pokemon? pokemon) {
+    final bool isFavorite = favoritePokemons.contains(pokemonURL);
+
     return Skeletonizer(
       enabled: isLoading,
       child: GestureDetector(
@@ -42,37 +35,30 @@ class PokemonListTile extends ConsumerWidget {
           if (!isLoading) {
             showDialog(
               context: context,
-              builder: (_) {
-                return PokemonStatsCard(pokemonUrl: pokemonURL);
-              },
+              builder: (_) => PokemonStatsCard(pokemonUrl: pokemonURL),
             );
           }
         },
         child: ListTile(
-          leading:
-              pokemon != null
-                  ? CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      pokemon.sprites!.frontDefault!,
-                    ),
-                  )
-                  : CircleAvatar(),
-          title: Text(
-            pokemon != null ? pokemon.name!.toUpperCase() : "Loading...",
+          leading: CircleAvatar(
+            backgroundImage: pokemon?.sprites?.frontDefault != null
+                ? NetworkImage(pokemon!.sprites!.frontDefault!)
+                : null,
+            backgroundColor: Colors.grey.shade300, 
           ),
-          subtitle: Text("Has ${pokemon?.moves?.length.toString() ?? 0} moves"),
+          title: Text(
+            pokemon?.name?.toUpperCase() ?? "Loading...",
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text("Has ${pokemon?.moves?.length.toString() ?? '0'} moves"),
           trailing: IconButton(
             onPressed: () {
-              if (_favoritePokemons.contains(pokemonURL)) {
-                _favoritePokemonProvider.removeFavoritePokemon(pokemonURL);
-              } else {
-                _favoritePokemonProvider.addFavoritePokemon(pokemonURL);
-              }
+              isFavorite
+                  ? favoritePokemonNotifier.removeFavoritePokemon(pokemonURL)
+                  : favoritePokemonNotifier.addFavoritePokemon(pokemonURL);
             },
             icon: Icon(
-              _favoritePokemons.contains(pokemonURL)
-                  ? Icons.favorite
-                  : Icons.favorite_border,
+              isFavorite ? Icons.favorite : Icons.favorite_border,
               color: Colors.red,
             ),
           ),
