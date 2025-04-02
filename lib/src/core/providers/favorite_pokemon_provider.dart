@@ -16,17 +16,17 @@ class FavoritePokemonProvider extends StateNotifier<List<String>> {
   }
 
   Future<void> _setup() async {
-    List<String>? list = await _databaseService.getList(FAVOURITE_POKEMON_LIST_KEY);
+    List<String>? list = await _databaseService.getStringList(FAVOURITE_POKEMON_LIST_KEY);
     state = list ?? [];
   }
 
   void addFavoritePokemon(String url){
     state = [...state, url];
-    _databaseService.saveList(FAVOURITE_POKEMON_LIST_KEY, state);
+    _databaseService.saveStringList(FAVOURITE_POKEMON_LIST_KEY, state);
   }
 
   void removeFavoritePokemon(String url){
     state = state.where((element) => element != url).toList();
-      _databaseService.saveList(FAVOURITE_POKEMON_LIST_KEY, state);
+      _databaseService.saveStringList(FAVOURITE_POKEMON_LIST_KEY, state);
   }
 }
