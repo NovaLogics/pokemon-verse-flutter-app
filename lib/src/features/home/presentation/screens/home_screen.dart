@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokemonverse/src/core/providers/favorite_pokemon_provider.dart';
-import 'package:pokemonverse/src/features/home/data/models/page_data.dart';
 import 'package:pokemonverse/src/features/home/presentation/controller/home_controller.dart';
+import 'package:pokemonverse/src/features/home/presentation/controller/home_data_state.dart';
 import 'package:pokemonverse/src/features/home/presentation/widgets/pokemon_card.dart';
 import 'package:pokemonverse/src/features/home/presentation/widgets/pokemon_list_tile.dart';
 
 // Provider for HomeController state management
 final homeControllerProvider =
-    StateNotifierProvider<HomeController, HomePageData>((ref) {
-      return HomeController(HomePageData.initial());
+    StateNotifierProvider<HomeController, HomeDataState>((ref) {
+      return HomeController(HomeDataState.initial());
     });
 
 class HomeScreen extends ConsumerStatefulWidget {
