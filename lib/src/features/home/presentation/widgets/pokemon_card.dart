@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokemonverse/src/core/providers/favorite_pokemon_provider.dart';
 import 'package:pokemonverse/src/core/providers/pokemon_data_provider.dart';
@@ -9,36 +8,38 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class PokemonCard extends ConsumerWidget {
   final String pokemonUrl;
-  late FavoritePokemonNotifier _favoritePokemonProvider;
 
-  PokemonCard({super.key, required this.pokemonUrl});
+  const PokemonCard({super.key, required this.pokemonUrl});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _favoritePokemonProvider = ref.watch(favoritePokemonProvider.notifier);
     final pokemon = ref.watch(pokemonDataProvider(pokemonUrl));
 
     return pokemon.when(
-      data: (data) {
-        return _card(context, false, data);
-      },
-      error: (error, stackTrace) {
-        return Center(child: Text("Error: $error"));
-      },
-      loading: () {
-        return _card(context, true, null);
-      },
+      data: (data) => _card(context, ref, false, data),
+      error: (error, stackTrace) => Center(child: Text("Error: $error")),
+      loading: () => _card(context, ref, true, null),
     );
   }
 
-  Widget _card(BuildContext context, bool isLoading, Pokemon? pokemon) {
+  Widget _card(
+    BuildContext context,
+    WidgetRef ref,
+    bool isLoading,
+    Pokemon? pokemon,
+  ) {
+    final favoritePokemonNotifier = ref.watch(favoritePokemonProvider.notifier);
+
     return Skeletonizer(
       enabled: isLoading,
       ignoreContainers: true,
       child: GestureDetector(
         onTap: () {
           if (!isLoading) {
-            showDialog(context: context, builder: (_){ return PokemonStatsCard(pokemonUrl: pokemonUrl); });
+            showDialog(
+              context: context,
+              builder: (_) => PokemonStatsCard(pokemonUrl: pokemonUrl),
+            );
           }
         },
         child: Container(
@@ -64,15 +65,15 @@ class PokemonCard extends ConsumerWidget {
               Row(
                 children: [
                   Text(
-                    pokemon != null ? pokemon.name!.toUpperCase() : "Pokemon",
+                    pokemon?.name?.toUpperCase() ?? "Pokemon",
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Spacer(),
+                  Expanded(child: Container()), // Replaces Spacer()
                   Text(
-                    "#${pokemon?.id.toString() ?? 0}",
+                    "#${pokemon?.id?.toString() ?? '0'}",
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -83,10 +84,11 @@ class PokemonCard extends ConsumerWidget {
               Expanded(
                 child: CircleAvatar(
                   backgroundImage:
-                      pokemon != null
-                          ? NetworkImage(pokemon.sprites!.frontDefault!)
+                      pokemon?.sprites?.frontDefault != null
+                          ? NetworkImage(pokemon!.sprites!.frontDefault!)
                           : null,
                   radius: MediaQuery.sizeOf(context).height * 0.05,
+                  backgroundColor: Colors.grey, // Placeholder for missing image
                 ),
               ),
               Row(
@@ -94,16 +96,14 @@ class PokemonCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "${pokemon?.moves?.length.toString() ?? 0} moves",
+                    "${pokemon?.moves?.length.toString() ?? '0'} moves",
                     style: const TextStyle(color: Colors.white),
                   ),
                   GestureDetector(
                     onTap: () {
-                      _favoritePokemonProvider.removeFavoritePokemon(
-                        pokemonUrl,
-                      );
+                      favoritePokemonNotifier.removeFavoritePokemon(pokemonUrl);
                     },
-                    child: Icon(Icons.favorite, color: Colors.red),
+                    child: const Icon(Icons.favorite, color: Colors.red),
                   ),
                 ],
               ),
