@@ -8,8 +8,8 @@ final pokemonDataProvider = FutureProvider.family<Pokemon?, String>((
   ref,
   url,
 ) async {
-  HttpService _httpService = GetIt.instance.get<HttpService>();
-  Response? response = await _httpService.get(url);
+  HttpService httpService = GetIt.instance.get<HttpService>();
+  Response? response = await httpService.get(url);
 
   if (response != null && response.data != null) {
     return Pokemon.fromJson(response.data!);
