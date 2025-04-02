@@ -9,7 +9,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class PokemonCard extends ConsumerWidget {
   final String pokemonUrl;
-  late FavoritePokemonProvider _favoritePokemonProvider;
+  late FavoritePokemonNotifier _favoritePokemonProvider;
 
   PokemonCard({super.key, required this.pokemonUrl});
 

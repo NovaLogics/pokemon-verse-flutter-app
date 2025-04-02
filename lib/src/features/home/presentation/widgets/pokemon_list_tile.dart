@@ -9,7 +9,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 class PokemonListTile extends ConsumerWidget {
   final String pokemonURL;
 
-  late FavoritePokemonProvider _favoritePokemonProvider;
+  late FavoritePokemonNotifier _favoritePokemonProvider;
   late List<String> _favoritePokemons;
 
   PokemonListTile({super.key, required this.pokemonURL});

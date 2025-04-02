@@ -2,31 +2,39 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pokemonverse/src/core/services/database_service.dart';
 
-final favoritePokemonProvider = StateNotifierProvider<FavoritePokemonProvider, List<String>>(
-  (ref) => FavoritePokemonProvider([]),
+// Provider for managing the favorite Pokémon list
+final favoritePokemonProvider = StateNotifierProvider<FavoritePokemonNotifier, List<String>>(
+  (ref) => FavoritePokemonNotifier(),
 );
 
-class FavoritePokemonProvider extends StateNotifier<List<String>> {
+class FavoritePokemonNotifier extends StateNotifier<List<String>> {
   final DatabaseService _databaseService = GetIt.instance.get<DatabaseService>();
+  static const String _favoritePokemonListKey = "favorite_pokemon_list";
 
-  String FAVOURITE_POKEMON_LIST_KEY = "FAVOURITE_POKEMON_LIST_KEY";
-  
-  FavoritePokemonProvider(super._state) {
-    _setup();
+  FavoritePokemonNotifier() : super([]) {
+    _loadFavorites(); 
   }
 
-  Future<void> _setup() async {
-    List<String>? list = await _databaseService.getStringList(FAVOURITE_POKEMON_LIST_KEY);
-    state = list ?? [];
+  Future<void> _loadFavorites() async {
+    final List<String>? savedList = await _databaseService.getStringList(_favoritePokemonListKey);
+    if (savedList != null) {
+      state = savedList;
+    }
   }
 
-  void addFavoritePokemon(String url){
-    state = [...state, url];
-    _databaseService.saveStringList(FAVOURITE_POKEMON_LIST_KEY, state);
+  void addFavoritePokemon(String pokemonUrl) {
+    if (!state.contains(pokemonUrl)) {
+      state = [...state, pokemonUrl];
+      _saveFavorites();
+    }
   }
 
-  void removeFavoritePokemon(String url){
-    state = state.where((element) => element != url).toList();
-      _databaseService.saveStringList(FAVOURITE_POKEMON_LIST_KEY, state);
+  void removeFavoritePokemon(String pokemonUrl) {
+    state = state.where((url) => url != pokemonUrl).toList();
+    _saveFavorites();
+  }
+
+  void _saveFavorites() {
+    _databaseService.saveStringList(_favoritePokemonListKey, state);
   }
 }
