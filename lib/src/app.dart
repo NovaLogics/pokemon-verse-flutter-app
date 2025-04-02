@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pokemonverse/src/presentation/home_screen.dart';
+import 'package:pokemonverse/src/features/home/presentation/screens/home_screen.dart';
 
 /// Main Application Entry Point for PokemonVerseApp
 /// Root Level ->

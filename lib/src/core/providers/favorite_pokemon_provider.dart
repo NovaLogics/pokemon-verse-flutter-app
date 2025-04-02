@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pokemonverse/src/data/services/database_service.dart';
+import 'package:pokemonverse/src/core/services/database_service.dart';
 
 final favoritePokemonProvider = StateNotifierProvider<FavoritePokemonProvider, List<String>>(
   (ref) => FavoritePokemonProvider([]),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokemonverse/src/core/favorite_pokemon_provider.dart';
-import 'package:pokemonverse/src/data/models/page_data.dart';
-import 'package:pokemonverse/src/data/models/pokemon.dart';
-import 'package:pokemonverse/src/presentation/home_controller.dart';
-import 'package:pokemonverse/src/presentation/pokemon_card.dart';
-import 'package:pokemonverse/src/presentation/pokemon_list_tile.dart';
+import 'package:pokemonverse/src/core/providers/favorite_pokemon_provider.dart';
+import 'package:pokemonverse/src/features/home/data/models/page_data.dart';
+import 'package:pokemonverse/src/features/home/data/models/pokemon.dart';
+import 'package:pokemonverse/src/features/home/presentation/controller/home_controller.dart';
+import 'package:pokemonverse/src/features/home/presentation/widgets/pokemon_card.dart';
+import 'package:pokemonverse/src/features/home/presentation/widgets/pokemon_list_tile.dart';
 
 final homeControllerProvider =
     StateNotifierProvider<HomeController, HomePageData>((ref) {

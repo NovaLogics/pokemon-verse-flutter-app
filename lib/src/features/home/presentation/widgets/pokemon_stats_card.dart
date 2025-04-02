@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokemonverse/src/core/pokemon_data_provider.dart';
+import 'package:pokemonverse/src/core/providers/pokemon_data_provider.dart';
 
 class PokemonStatsCard extends ConsumerWidget {
   final String pokemonUrl;

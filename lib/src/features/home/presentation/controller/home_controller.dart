@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pokemonverse/src/data/models/page_data.dart';
-import 'package:pokemonverse/src/data/models/pokemon.dart';
-import 'package:pokemonverse/src/data/services/http_service.dart';
+import 'package:pokemonverse/src/features/home/data/models/page_data.dart';
+import 'package:pokemonverse/src/features/home/data/models/pokemon.dart';
+import 'package:pokemonverse/src/core/services/http_service.dart';
 
 class HomeController extends StateNotifier<HomePageData> {
   final GetIt _getIt = GetIt.instance;

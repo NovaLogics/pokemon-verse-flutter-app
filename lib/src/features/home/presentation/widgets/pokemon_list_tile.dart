@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokemonverse/src/core/favorite_pokemon_provider.dart';
-import 'package:pokemonverse/src/core/pokemon_data_provider.dart';
-import 'package:pokemonverse/src/data/models/pokemon.dart';
-import 'package:pokemonverse/src/presentation/pokemon_stats_card.dart';
+import 'package:pokemonverse/src/core/providers/favorite_pokemon_provider.dart';
+import 'package:pokemonverse/src/core/providers/pokemon_data_provider.dart';
+import 'package:pokemonverse/src/features/home/data/models/pokemon.dart';
+import 'package:pokemonverse/src/features/home/presentation/widgets/pokemon_stats_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PokemonListTile extends ConsumerWidget {
