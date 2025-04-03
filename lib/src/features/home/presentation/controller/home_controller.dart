@@ -2,9 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pokemonverse/src/features/home/data/models/pokemon.dart';
 import 'package:pokemonverse/src/core/services/http_service.dart';
 import 'package:pokemonverse/src/features/home/presentation/controller/home_data_state.dart';
+
+import '../../data/models/pokemon_list_model.dart';
+import '../../domain/entities/pokemon_list_entity.dart';
+
+
 
 class HomeController extends StateNotifier<HomeDataState> {
   final HttpService _httpService = GetIt.instance.get<HttpService>();
@@ -37,15 +41,16 @@ class HomeController extends StateNotifier<HomeDataState> {
       final Response? response = await _httpService.get(url);
 
       if (response != null && response.data != null) {
-        final PokemonListData newData = PokemonListData.fromJson(response.data);
+        final PokemonListModel newData = PokemonListModel.fromJson(response.data);
+        final PokemonListEntity newDataEntity = newData.toEntity();
 
         // Update the state:
         state = state.copyWith(
           data:
               state.data == null
-                  ? newData
-                  : newData.copyWith(
-                    results: [...?state.data?.results, ...?newData.results],
+                  ? newDataEntity
+                  : newDataEntity.copyWith(
+                    results: [...?state.data?.results, ...newDataEntity.results],
                   ),
         );
       }

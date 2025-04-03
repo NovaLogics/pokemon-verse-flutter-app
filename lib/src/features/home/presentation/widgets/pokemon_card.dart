@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokemonverse/src/core/providers/favorite_pokemon_provider.dart';
 import 'package:pokemonverse/src/core/providers/pokemon_data_provider.dart';
-import 'package:pokemonverse/src/features/home/data/models/pokemon.dart';
 import 'package:pokemonverse/src/features/home/presentation/widgets/pokemon_stats_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../domain/entities/pokemon_entity.dart';
 
 class PokemonCard extends ConsumerWidget {
   final String pokemonUrl;
@@ -26,7 +27,7 @@ class PokemonCard extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     bool isLoading,
-    Pokemon? pokemon,
+    PokemonEntity? pokemon,
   ) {
     final favoritePokemonNotifier = ref.watch(favoritePokemonProvider.notifier);
 
@@ -65,7 +66,7 @@ class PokemonCard extends ConsumerWidget {
               Row(
                 children: [
                   Text(
-                    pokemon?.name?.toUpperCase() ?? "Pokemon",
+                    pokemon?.name.toUpperCase() ?? "Pokemon",
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -73,7 +74,7 @@ class PokemonCard extends ConsumerWidget {
                   ),
                   Expanded(child: Container()), // Replaces Spacer()
                   Text(
-                    "#${pokemon?.id?.toString() ?? '0'}",
+                    "#${pokemon?.id.toString() ?? '0'}",
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -84,7 +85,7 @@ class PokemonCard extends ConsumerWidget {
               Expanded(
                 child: CircleAvatar(
                   backgroundImage:
-                      pokemon?.sprites?.frontDefault != null
+                      pokemon?.sprites.frontDefault != null
                           ? NetworkImage(pokemon!.sprites!.frontDefault!)
                           : null,
                   radius: MediaQuery.sizeOf(context).height * 0.05,
@@ -96,7 +97,7 @@ class PokemonCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "${pokemon?.moves?.length.toString() ?? '0'} moves",
+                    "${pokemon?.moves.length.toString() ?? '0'} moves",
                     style: const TextStyle(color: Colors.white),
                   ),
                   GestureDetector(

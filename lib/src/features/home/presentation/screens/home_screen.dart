@@ -81,14 +81,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             // All Pokémon list using a SliverList
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
-                final pokemon = homePageData.data!.results![index];
+                final pokemon = homePageData.data!.results[index];
                 return Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.sizeOf(context).width * 0.02,
                   ),
-                  child: PokemonListTile(pokemonURL: pokemon.url!),
+                  child: PokemonListTile(pokemonURL: pokemon.url),
                 );
-              }, childCount: homePageData.data?.results?.length ?? 0),
+              }, childCount: homePageData.data?.results.length ?? 0),
             ),
           ],
         ),

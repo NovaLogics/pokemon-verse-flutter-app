@@ -1,13 +1,13 @@
-import 'package:pokemonverse/src/features/home/data/models/pokemon.dart';
+import '../../domain/entities/pokemon_list_entity.dart';
 
 class HomeDataState {
-  final PokemonListData? data;
+  final PokemonListEntity? data;
 
   HomeDataState({required this.data});
 
   HomeDataState.initial() : data = null;
 
-  HomeDataState copyWith({PokemonListData? data}) {
+  HomeDataState copyWith({PokemonListEntity? data}) {
     return HomeDataState(data: data ?? this.data);
   }
 }

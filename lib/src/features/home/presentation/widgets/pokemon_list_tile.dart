@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokemonverse/src/core/providers/favorite_pokemon_provider.dart';
 import 'package:pokemonverse/src/core/providers/pokemon_data_provider.dart';
-import 'package:pokemonverse/src/features/home/data/models/pokemon.dart';
 import 'package:pokemonverse/src/features/home/presentation/widgets/pokemon_stats_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../domain/entities/pokemon_entity.dart';
 
 class PokemonListTile extends ConsumerWidget {
   final String pokemonURL;
@@ -25,7 +26,7 @@ class PokemonListTile extends ConsumerWidget {
   }
 
   Widget _tile(BuildContext context, FavoritePokemonNotifier favoritePokemonNotifier,
-      List<String> favoritePokemons, bool isLoading, Pokemon? pokemon) {
+      List<String> favoritePokemons, bool isLoading, PokemonEntity? pokemon) {
     final bool isFavorite = favoritePokemons.contains(pokemonURL);
 
     return Skeletonizer(
