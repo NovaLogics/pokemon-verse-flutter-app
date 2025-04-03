@@ -15,7 +15,7 @@ class PokemonStatsCard extends ConsumerWidget {
       title: const Text("Pokémon Stats"),
       content: pokemon.when(
         data: (data) {
-          if (data?.stats == null || data!.stats!.isEmpty) {
+          if (data?.stats == null || data!.stats.isEmpty) {
             return const Text("No stats available.");
           }
           return SizedBox(
@@ -23,9 +23,9 @@ class PokemonStatsCard extends ConsumerWidget {
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: data.stats!.map((element) {
+                children: data.stats.map((element) {
                   return Text(
-                    "${element.stat?.name?.toUpperCase()}: ${element.baseStat}",
+                    "${element.stat.name.toUpperCase()}: ${element.baseStat}",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   );
                 }).toList(),

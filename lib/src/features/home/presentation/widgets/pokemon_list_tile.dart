@@ -42,16 +42,16 @@ class PokemonListTile extends ConsumerWidget {
         },
         child: ListTile(
           leading: CircleAvatar(
-            backgroundImage: pokemon?.sprites?.frontDefault != null
-                ? NetworkImage(pokemon!.sprites!.frontDefault!)
+            backgroundImage: pokemon?.sprites.frontDefault != null
+                ? NetworkImage(pokemon!.sprites.frontDefault)
                 : null,
             backgroundColor: Colors.grey.shade300, 
           ),
           title: Text(
-            pokemon?.name?.toUpperCase() ?? "Loading...",
+            pokemon?.name.toUpperCase() ?? "Loading...",
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          subtitle: Text("Has ${pokemon?.moves?.length.toString() ?? '0'} moves"),
+          subtitle: Text("Has ${pokemon?.moves.length.toString() ?? '0'} moves"),
           trailing: IconButton(
             onPressed: () {
               isFavorite

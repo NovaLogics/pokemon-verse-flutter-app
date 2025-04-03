@@ -86,7 +86,7 @@ class PokemonCard extends ConsumerWidget {
                 child: CircleAvatar(
                   backgroundImage:
                       pokemon?.sprites.frontDefault != null
-                          ? NetworkImage(pokemon!.sprites!.frontDefault!)
+                          ? NetworkImage(pokemon!.sprites.frontDefault)
                           : null,
                   radius: MediaQuery.sizeOf(context).height * 0.05,
                   backgroundColor: Colors.grey, // Placeholder for missing image
