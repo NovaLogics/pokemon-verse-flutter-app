@@ -101,28 +101,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     BuildContext context,
     List<String> favoritePokemons,
   ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text("Favorite Pokémon", style: TextStyle(fontSize: 25)),
-        SizedBox(
-          height: MediaQuery.sizeOf(context).height * 0.50,
-          child:
-              favoritePokemons.isNotEmpty
-                  ? GridView.builder(
-                    scrollDirection: Axis.horizontal,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                        ),
-                    itemCount: favoritePokemons.length,
-                    itemBuilder: (context, index) {
-                      return PokemonCard(pokemonUrl: favoritePokemons[index]);
-                    },
-                  )
-                  : const Center(child: Text("No favorite Pokémons yet!")),
-        ),
-      ],
-    );
+    return favoritePokemons.isNotEmpty
+        ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Favorite Pokémon", style: TextStyle(fontSize: 25)),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.50,
+              child:
+                  favoritePokemons.isNotEmpty
+                      ? GridView.builder(
+                        scrollDirection: Axis.horizontal,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                            ),
+                        itemCount: favoritePokemons.length,
+                        itemBuilder: (context, index) {
+                          return PokemonCard(
+                            pokemonUrl: favoritePokemons[index],
+                          );
+                        },
+                      )
+                      : const Center(child: Text("No favorite Pokémons yet!")),
+            ),
+          ],
+        )
+        : SizedBox();
   }
 }
