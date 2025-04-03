@@ -1,6 +1,6 @@
 # Basic project configuration
 name: pokemonverse
-description: "A new Flutter project."
+description: "A Pokémon collection app"
 publish_to: 'none'
 
 # Version information
